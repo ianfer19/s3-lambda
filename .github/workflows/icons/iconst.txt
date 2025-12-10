@@ -1,0 +1,48 @@
+📌 Convenciones de Commits con Emojis
+
+🎨 Frontend
+Propósito	Emoji	Ejemplo
+Nueva UI / componente		✨ feat(ui): añade modal de login
+Estilos (CSS, Tailwind, Bootstrap)	🎨	🎨 style: mejora espaciado en navbar
+Accesibilidad	♿	♿ a11y: agrega labels ARIA en botones
+UX / rediseño visual	🖌️	🖌️ ui: rediseña página de inicio
+Traducciones / i18n	🌐	🌐 i18n: agrega soporte para portugués
+Hotfix visual	🚑	🚑 hotfix(ui): corrige error en responsive
+Tests front	✅	✅ test(ui): añade pruebas de componentes
+
+⚙️ Backend
+Propósito	Emoji	Ejemplo
+Nueva API / endpoint	✨	✨ feat(api): crea endpoint de reservas
+Fix en API / lógica	🐛	🐛 fix(api): corrige error en validación
+Refactorización lógica	♻️	♻️ refactor(api): simplifica middleware
+Seguridad (auth, roles, validaciones)	🔒	🔒 security: valida entrada en login
+JWT / tokens	🔑	🔑 jwt: mejora expiración de tokens
+Base de datos	🗄️	🗄️ db: crea tabla de usuarios en DynamoDB
+Migraciones	🧩	🧩 migration: añade campo estado en caja
+Performance	⚡	⚡ perf: optimiza consulta de horarios
+Logs / Debug	🪵	🪵 log: agrega logging en servicio de tokens
+Seeds / datos iniciales	🌱	🌱 seed: inserta usuarios de prueba
+Tests backend	✅	✅ test(api): añade pruebas para endpoint de login
+Revertir cambios	⏪	⏪ revert(api): revierte bug introducido
+🛠 infra: actualiza nombre de lambda en serverless.yml
+🔧 config: sincroniza nombres de lambdas en configuración
+
+🛠 Infraestructura / DevOps
+Propósito	Emoji	Ejemplo
+Deploy / release	🚀	🚀 deploy: despliegue en producción
+Merge de ramas	🔀	🔀 merge: integra rama auth en main
+Configuración (linters, eslint, prettier)	🔧	🔧 config: actualiza configuración de eslint
+CI/CD	⚙️	⚙️ ci: configura GitHub Actions
+Docker / contenedores	🐳	🐳 docker: añade Dockerfile para backend
+Scripts de automatización	📜	📜 script: agrega script de backup
+Monitoreo / métricas	📈	📈 monitor: añade métricas de rendimiento
+Archivos ignorados (.gitignore)	🙈	🙈 gitignore: añade reglas para /dist
+
+📖 General
+Propósito	Emoji	Ejemplo
+Documentación	📝	📝 docs: actualiza guía de instalación
+Dependencias ↑↓	⬆️ / ⬇️	⬆️ chore: actualiza Django 5.0
+Trabajo en progreso	🚧	🚧 wip: integración con API en curso
+Eliminación de código / archivos	🔥	🔥 remove: elimina funciones obsoletas
+Comentarios temporales / pruebas	💡	💡 temp: añade logs para depuración
+Hotfix crítico (urgente)	🚑	🚑 hotfix: corrige bug en producción

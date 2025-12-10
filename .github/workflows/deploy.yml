@@ -1,0 +1,32 @@
+name: Deploy Lambda via AWS CLI
+
+on:
+  push:
+    branches: [ "produccion" ]   # Cambia la rama si lo deseas
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1   # Cambia a tu región si es otra
+
+      - name: Create deployment package
+        run: |
+          zip -r function.zip . \
+            -x ".git/*" \
+            -x ".github/*"
+
+      - name: Deploy to AWS Lambda
+        run: |
+          aws lambda update-function-code \
+            --function-name s3-lambda \
+            --zip-file fileb://function.zip
