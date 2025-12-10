@@ -5,7 +5,6 @@ This function allows the frontend to upload images directly to S3
 import json
 import boto3
 import os
-import traceback
 from datetime import datetime
 from botocore.exceptions import ClientError
 # Initialize S3 client
@@ -38,8 +37,6 @@ def lambda_handler(event, context):
     }
     """
     
-    print(f"Received event: {json.dumps(event) if event else 'None'}")
-    
     # CORS headers
     headers = {
         'Access-Control-Allow-Origin': '*',
@@ -50,7 +47,6 @@ def lambda_handler(event, context):
     try:
         # Handle OPTIONS request for CORS
         if event.get('httpMethod') == 'OPTIONS':
-            print("Handling OPTIONS request")
             return {
                 'statusCode': 200,
                 'headers': headers,
@@ -58,17 +54,12 @@ def lambda_handler(event, context):
             }
         
         # Parse request body
-        body_str = event.get('body', '{}')
-        print(f"Request body: {body_str}")
-        body = json.loads(body_str)
+        body = json.loads(event.get('body', '{}'))
         file_name = body.get('fileName')
         content_type = body.get('contentType')
         
-        print(f"Parsed request - fileName: {file_name}, contentType: {content_type}")
-        
         # Validate input
         if not file_name or not content_type:
-            print("Error: fileName and contentType are required")
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -79,7 +70,6 @@ def lambda_handler(event, context):
         
         # Validate content type
         if content_type.lower() not in ALLOWED_CONTENT_TYPES:
-            print(f"Error: Invalid content type '{content_type}'. Allowed: {ALLOWED_CONTENT_TYPES}")
             return {
                 'statusCode': 400,
                 'headers': headers,
@@ -91,11 +81,9 @@ def lambda_handler(event, context):
         # Sanitize and generate unique file name
         sanitized_name = sanitize_filename(file_name)
         unique_key = generate_unique_key(sanitized_name)
-        print(f"Generated key: {unique_key} from sanitized name: {sanitized_name}")
         
         # Generate presigned URL for PUT operation
         try:
-            print(f"Generating presigned URL for bucket: {BUCKET_NAME}, key: {unique_key}")
             presigned_url = s3_client.generate_presigned_url(
                 'put_object',
                 Params={
@@ -106,10 +94,8 @@ def lambda_handler(event, context):
                 },
                 ExpiresIn=PRESIGNED_URL_EXPIRATION
             )
-            print("Presigned URL generated successfully")
         except ClientError as e:
             print(f"Error generating presigned URL: {str(e)}")
-            traceback.print_exc()
             return {
                 'statusCode': 500,
                 'headers': headers,
@@ -120,7 +106,6 @@ def lambda_handler(event, context):
         
         # Generate the public URL for the file
         file_url = f"https://{BUCKET_NAME}.s3.amazonaws.com/{unique_key}"
-        print(f"File URL: {file_url}")
         
         # Return response
         return {
@@ -133,8 +118,7 @@ def lambda_handler(event, context):
             })
         }
         
-    except json.JSONDecodeError as e:
-        print(f"Error decoding JSON: {str(e)}")
+    except json.JSONDecodeError:
         return {
             'statusCode': 400,
             'headers': headers,
@@ -144,7 +128,6 @@ def lambda_handler(event, context):
         }
     except Exception as e:
         print(f"Unexpected error: {str(e)}")
-        traceback.print_exc()
         return {
             'statusCode': 500,
             'headers': headers,
