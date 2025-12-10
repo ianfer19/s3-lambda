@@ -89,8 +89,7 @@ def lambda_handler(event, context):
                 Params={
                     'Bucket': BUCKET_NAME,
                     'Key': unique_key,
-                    'ContentType': content_type,
-                    'ACL': 'public-read'  # Make the uploaded file publicly readable
+                    'ContentType': content_type
                 },
                 ExpiresIn=PRESIGNED_URL_EXPIRATION
             )
